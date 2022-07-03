@@ -1,7 +1,22 @@
-import type { NextPage } from "next";
+import type { NextPage } from 'next'
+import { useState, useEffect } from 'react'
+import { client, recommendProfiles } from '../api'
 
 const Home: NextPage = () => {
-  return <div className="flex justify-center">hello world</div>;
-};
+  const fetchProfiles = async () => {
+    const response = await client.query(recommendProfiles).toPromise()
+    console.log('response: ', response)
+  }
 
-export default Home;
+  useEffect(() => {
+    try {
+      fetchProfiles()
+    } catch (err) {
+      console.log('error ', err)
+    }
+  }, [])
+
+  return <div className="flex justify-center">hello world</div>
+}
+
+export default Home
