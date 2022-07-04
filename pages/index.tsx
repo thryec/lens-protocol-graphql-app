@@ -3,17 +3,20 @@ import { useState, useEffect } from 'react'
 import { client, recommendProfiles } from '../api'
 
 const Home: NextPage = () => {
+  const [profiles, setProfiles] = useState([])
+
   const fetchProfiles = async () => {
-    const response = await client.query(recommendProfiles).toPromise()
-    console.log('response: ', response)
+    try {
+      const response = await client.query(recommendProfiles).toPromise()
+      console.log({ response })
+      setProfiles(response.data.recommendProfiles)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   useEffect(() => {
-    try {
-      fetchProfiles()
-    } catch (err) {
-      console.log('error ', err)
-    }
+    fetchProfiles()
   }, [])
 
   return <div className="flex justify-center">hello world</div>
